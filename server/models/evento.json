@@ -1,0 +1,47 @@
+[
+    {
+        "nombre": "Concierto de Rock",
+        "timestamp": { "$date": "2024-12-15T20:00:00.000Z" },
+        "lugar": "Av. de la Música, 123, Madrid, España",
+        "lat": 40.416775,
+        "lon": -3.703790,
+        "organizador": "rockfest@example.com",
+        "imagen": "https://example.com/images/rock_concert.jpg"
+    },
+    {
+        "nombre": "Exposición de Arte Moderno",
+        "timestamp": { "$date": "2024-12-18T10:00:00.000Z" },
+        "lugar": "Museo de Arte Contemporáneo, Calle Arte, 45, Barcelona, España",
+        "lat": 41.385064,
+        "lon": 2.173404,
+        "organizador": "artcurator@example.com",
+        "imagen": "https://example.com/images/art_exhibition.jpg"
+    },
+    {
+        "nombre": "Partido de Fútbol",
+        "timestamp": { "$date": "2024-12-20T18:30:00.000Z" },
+        "lugar": "Estadio Nacional, Av. Deportiva, 98, Sevilla, España",
+        "lat": 37.388630,
+        "lon": -5.982330,
+        "organizador": "footballleague@example.com",
+        "imagen": "https://example.com/images/football_match.jpg"
+    },
+    {
+        "nombre": "Feria Gastronómica",
+        "timestamp": { "$date": "2024-12-22T12:00:00.000Z" },
+        "lugar": "Plaza Central, Calle Sabores, 56, Valencia, España",
+        "lat": 39.469907,
+        "lon": -0.376288,
+        "organizador": "foodlovers@example.com",
+        "imagen": "https://example.com/images/food_fair.jpg"
+    },
+    {
+        "nombre": "Conferencia de Tecnología",
+        "timestamp": { "$date": "2024-12-25T09:00:00.000Z" },
+        "lugar": "Centro Tecnológico, Av. Innovación, 34, Bilbao, España",
+        "lat": 43.263013,
+        "lon": -2.934985,
+        "organizador": "techguru@example.com",
+        "imagen": "https://example.com/images/tech_conference.jpg"
+    }
+]
