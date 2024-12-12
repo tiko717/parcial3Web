@@ -9,12 +9,36 @@ const EventEditPage = () => {
   const navigate = useNavigate();
   const [event, setEvent] = useState(getActualEvent());
   const [nombre, setNombre] = useState(event?.nombre || "");
-  const [timestamp, setTimestamp] = useState(event?.timestamp || "");
+  const [timestamp, setTimestamp] = useState("");
   const [lugar, setLugar] = useState(event?.lugar || "");
   const [imagen, setImagen] = useState(null);
   const [imagenURL, setImagenURL] = useState(event?.imagen || "");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // Función para convertir el timestamp al formato "dd/mm/aaaa hh:mm"
+  const formatDateToInput = (timestamp) => {
+    const date = new Date(timestamp);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+  };
+
+  // Función para convertir el formato "dd/mm/yyyy hh:mm" al requerido para el backend
+  const parseInputToTimestamp = (input) => {
+    // En este caso, el input ya está en formato "dd/mm/yyyy hh:mm"
+    return input; // Devolver directamente el valor tal cual
+  };
+
+  // Al cargar, convertir el timestamp inicial al formato deseado
+  useEffect(() => {
+    if (event?.timestamp) {
+      setTimestamp(formatDateToInput(event.timestamp));
+    }
+  }, [event]);
 
   useEffect(() => {
     if (!event) {
@@ -55,7 +79,7 @@ const EventEditPage = () => {
         const updatedEvent = {
           ...event,
           nombre,
-          timestamp,
+          timestamp: parseInputToTimestamp(timestamp), // Convertir al formato requerido
           lugar,
           lat: parseFloat(lat),
           lon: parseFloat(lon),
@@ -96,7 +120,7 @@ const EventEditPage = () => {
         <input
           type="text"
           className="form-control"
-          placeholder="dd/mm/aa hh:mm"
+          placeholder="dd/mm/aaaa hh:mm"
           value={timestamp}
           onChange={(e) => setTimestamp(e.target.value)}
         />
