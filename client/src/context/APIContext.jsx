@@ -3,7 +3,7 @@ import axios from "axios";
 
 const APIContext = createContext();
 
-const BASE_URL = "http://localhost:8000/api";
+const BASE_URL = import.meta.env.REACT_APP_BASE_URL || "http://localhost:8000/api";
 // const BASE_URL = "https://practica-parcial3ingweb-server.vercel.app/api";
 
 export const APIProvider = ({ children }) => {

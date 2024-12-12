@@ -43,7 +43,7 @@ async def get_eventos_nearby(
         }
 
         eventos = DatabaseConnection.query_document(
-            "eventos", query, projection, sort_criteria, offset, limit
+            "eventos", query, projection, sort_criteria, offset, limit, hasDate=True
         )
 
         total_count = DatabaseConnection.count_documents("eventos", query)
@@ -74,7 +74,7 @@ async def get_eventos(
         sort_criteria = APIUtils.build_sort_criteria(sort)
 
         eventos = DatabaseConnection.query_document(
-            "eventos", {}, projection, sort_criteria, offset, limit
+            "eventos", {}, projection, sort_criteria, offset, limit, hasDate=True
         )
 
         total_count = DatabaseConnection.count_documents("eventos", {})
@@ -97,7 +97,7 @@ async def get_evento_by_id(request: Request, id: str = Path(description="ID del 
     APIUtils.check_accept_json(request)
 
     try:
-        evento = DatabaseConnection.read_document_id("eventos", id)
+        evento = DatabaseConnection.read_document_id("eventos", id, hasDate=True)
         if evento is None:
             return JSONResponse(status_code=404, content={"detail": f"Evento con ID {id} no encontrado"})
         

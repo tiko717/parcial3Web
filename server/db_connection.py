@@ -168,7 +168,7 @@ class DatabaseConnection:
             raise RuntimeError("Error de base de datos al eliminar el elemento.")
 
     @classmethod
-    def read_document_id(cls, collection_name, document_id : str, projection = None):
+    def read_document_id(cls, collection_name, document_id : str, projection = None, hasDate = False): # CAMBIO
         """Leer un documento por su ID."""
         collection = cls.get_collection(collection_name)
         try:
@@ -177,14 +177,15 @@ class DatabaseConnection:
                 logger.warning(f"Documento con ID {document_id} no encontrado.")
             else:
                 document['_id'] = document_id
-                document['timestamp'] = document['timestamp'].strftime('%Y-%m-%d %H:%M:%S')
+                if hasDate:
+                    document['timestamp'] = document['timestamp'].strftime('%Y-%m-%d %H:%M:%S')
             return document
         except Exception as e:
             logger.error(f"ID de documento no válido: {e}")
             raise
     
     @classmethod
-    def query_document(cls, collection_name, document_query, projection=None, sort_criteria=None, skip=0, limit=0, id_list=None):
+    def query_document(cls, collection_name, document_query, projection=None, sort_criteria=None, skip=0, limit=0, id_list=None, hasDate=False): # CAMBIO
         """Realizar query según los parámetros."""
         collection = cls.get_collection(collection_name)
         try:
@@ -206,15 +207,20 @@ class DatabaseConnection:
                 logger.warning(f"Documento con {document_query} no encontrado.")
                 return []
 
+            if hasDate:
+
             # Convertir documentos a lista y manejar correctamente el campo 'timestamp'
-            return [
-                {
-                    **d,
-                    '_id': d['_id'].binary.hex(),
-                    'timestamp': d['timestamp'].isoformat() if isinstance(d.get('timestamp'), datetime) else d.get('timestamp')
-                }
-                for d in documents
-            ]
+                return [
+                    {
+                        **d,
+                        '_id': d['_id'].binary.hex(),
+                        'timestamp': d['timestamp'].isoformat() if isinstance(d.get('timestamp'), datetime) else d.get('timestamp')
+                    }
+                    for d in documents
+                ]
+    
+            else:
+                return [{**d, '_id': d['_id'].binary.hex()} for d in documents]
         except Exception as e:
             logger.error(f"Error al realizar la consulta: {e}")
             raise
