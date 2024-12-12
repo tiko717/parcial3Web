@@ -6,27 +6,38 @@ import ProfileDropdown from "../../events/components/ProfileDropdown";
 
 const Header = () => {
   const { isLogged, getUser } = useAuth();
-
   const { search } = useLocation();
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
   const navigate = useNavigate();
   const searchInput = useRef();
 
-  const userID = useMemo(
-    () => (isLogged() ? getUser().id : null),
-    [isLogged, getUser]
-  );
+  const userID = useMemo(() => {
+    try {
+        const user = isLogged() ? getUser() : null;
+        return user ? user.id : null;
+    } catch (error) {
+        console.error("Error fetching user ID:", error);
+        return null; // Manejar casos en los que el usuario no esté cargado
+    }
+}, [isLogged, getUser]);
 
-  const userName = useMemo(
-    () => (isLogged() ? getUser().name : null),
-    [isLogged, getUser]
-  );
+  const userName = useMemo(() => {
+    try {
+      const user = isLogged() ? getUser() : null;
+      return user ? user.name : null;
+    } catch (error) {
+      console.error("Error fetching user name:", error);
+      return null;
+    }
+  }, [isLogged, getUser]);
 
-  console.log("uSER ID", userID);
+  const searchHandler = () => {
+    const searchValue = searchInput.current?.value.trim();
+    if (searchValue?.length > 0) {
+      navigate(`/search?q=${searchValue}`);
+    }
+  };
 
-  const searchHandler = () =>
-    searchInput.current.value.trim().length > 0 &&
-    navigate(`/search?q=${searchInput.current.value.trim()}`);
   const searchKeyHandler = (e) => e.key === "Enter" && searchHandler();
 
   const searchButton = (
@@ -34,6 +45,7 @@ const Header = () => {
       Buscar
     </button>
   );
+
   const loginBtn = useMemo(
     () => (
       <Link to={"/login"} style={{ textDecoration: "none", color: "gray" }}>

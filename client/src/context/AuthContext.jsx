@@ -1,13 +1,13 @@
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext, useState, useEffect } from "react";
 import {
     getAuth,
     signInWithPopup,
     GoogleAuthProvider,
-    FacebookAuthProvider,
 } from "firebase/auth";
 import { useAPI } from "./APIContext";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getRedirectResult } from "firebase/auth";
 const AuthContext = createContext();
 // Firebase configuration
 const firebaseConfig = {
@@ -26,6 +26,40 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
 export const AuthProvider = ({ children }) => {
+    useEffect(() => {
+        const handleRedirectResult = async () => {
+            try {
+                const result = await getRedirectResult(auth);
+                if (result) {
+                    const { user: firebaseUser } = result;
+                    const token = await firebaseUser.getIdToken();
+    
+                    // Verifica si el usuario existe
+                    const userExists = await isUser(firebaseUser.uid);
+    
+                    if (!userExists) {
+                        await register(firebaseUser, token, "google"); // Registrar si no existe
+                    } else {
+                        const response = await users.getByOauthID(firebaseUser.uid);
+                        const id = response.data[0]._id;
+                        const name = response.data[0].name;
+                        setUser({
+                            uid: firebaseUser.uid,
+                            email: firebaseUser.email,
+                            authMethod: "google",
+                            id: id,
+                            name: name,
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error("Error processing redirect result:", error);
+            }
+        };
+    
+        handleRedirectResult();
+    }, []);
+    
     const [user, setUser] = useState(null);
 
     const { users } = useAPI();
@@ -53,8 +87,6 @@ export const AuthProvider = ({ children }) => {
 
         if (providerName === "google") {
             provider = new GoogleAuthProvider();
-        } else if (providerName === "facebook") {
-            provider = new FacebookAuthProvider();
         }
 
         try {

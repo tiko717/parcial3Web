@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import "./LoginPage.css";
 import { useAuth } from "../../context/AuthContext";
 
 const LoginPage = () => {
@@ -73,14 +72,6 @@ const LoginPage = () => {
                   </div>
                 ) : (
                   <div className="d-flex flex-column align-items-center">
-                    <button
-                      disabled
-                      onClick={() => handleLogin("facebook")}
-                      className="btn btn-outline-primary mb-2 d-flex flex-column align-items-center justify-content-center w-100"
-                    >
-                      <span className="bi bi-facebook mb-2"></span>
-                      Facebook
-                    </button>
                     <button
                       onClick={() => handleLogin("google")}
                       className="btn btn-outline-danger d-flex flex-column align-items-center justify-content-center w-100"
