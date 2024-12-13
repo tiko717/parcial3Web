@@ -1,49 +1,14 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
 import ProfileDropdown from "../../events/components/ProfileDropdown";
 
 const Header = () => {
   const { isLogged, getUser } = useAuth();
-  const { search } = useLocation();
-  const query = React.useMemo(() => new URLSearchParams(search), [search]);
-  const navigate = useNavigate();
-  const searchInput = useRef();
 
-  const userID = useMemo(() => {
-    try {
-        const user = isLogged() ? getUser() : null;
-        return user ? user.id : null;
-    } catch (error) {
-        console.error("Error fetching user ID:", error);
-        return null; // Manejar casos en los que el usuario no esté cargado
-    }
-}, [isLogged, getUser]);
-
-  const userName = useMemo(() => {
-    try {
-      const user = isLogged() ? getUser() : null;
-      return user ? user.name : null;
-    } catch (error) {
-      console.error("Error fetching user name:", error);
-      return null;
-    }
-  }, [isLogged, getUser]);
-
-  const searchHandler = () => {
-    const searchValue = searchInput.current?.value.trim();
-    if (searchValue?.length > 0) {
-      navigate(`/search?q=${searchValue}`);
-    }
-  };
-
-  const searchKeyHandler = (e) => e.key === "Enter" && searchHandler();
-
-  const searchButton = (
-    <button className="btn btn-outline-secondary ms-2" onClick={searchHandler}>
-      Buscar
-    </button>
+  const userID = useMemo(
+    () => (isLogged() ? getUser().id : null),
+    [isLogged, getUser]
   );
 
   const loginBtn = useMemo(
@@ -56,12 +21,7 @@ const Header = () => {
   );
 
   const profileBundle = useMemo(
-    () => (
-      <div className="d-flex align-items-center">
-        {userID && <ProfileDropdown id={userID} />}
-      </div>
-    ),
-    [userID]
+    () => userID && <ProfileDropdown id={userID} />, [userID]
   );
 
   return (
@@ -77,21 +37,8 @@ const Header = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <Link to={"/"} className="navbar-brand">
-            La Wiki
+            Eventual
           </Link>
-          <div className="collapse navbar-collapse" id="collapseDiv">
-            <div className="d-flex">
-              <input
-                ref={searchInput}
-                onKeyDown={searchKeyHandler}
-                type="search"
-                defaultValue={query.get("q") ?? ""}
-                name="q"
-                className="form-control"
-              />
-              {searchButton}
-            </div>
-          </div>
           <div className="d-flex align-items-end">
             {isLogged() ? profileBundle : loginBtn}
           </div>

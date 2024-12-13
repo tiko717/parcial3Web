@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAPI } from "../../context/APIContext";
+import { useAuth } from "../../context/AuthContext"; // Importa el contexto de autenticación
 
 const EventCreatePage = () => {
   const { eventos, media } = useAPI();
+  const { getUser } = useAuth(); // Obtén la función getUser del contexto de autenticación
   const navigate = useNavigate();
   const [nombre, setNombre] = useState("");
   const [timestamp, setTimestamp] = useState("");
@@ -43,13 +45,17 @@ const EventCreatePage = () => {
       if (data && data.length > 0) {
         const { lat, lon } = data[0];
 
+        // Verificar si el usuario está logueado y obtener su email
+        const usuarioLogueado = getUser(); // Obtener el usuario logueado
+        const organizador = usuarioLogueado ? usuarioLogueado.email : "user"; // Si está logueado, usar su email, sino "user"
+
         const newEvent = {
           nombre,
           timestamp,
           lugar,
           lat: parseFloat(lat),
           lon: parseFloat(lon),
-          organizador: "user",
+          organizador, // Usar el email o "user" según corresponda
           imagen: imagenURL,
         };
 

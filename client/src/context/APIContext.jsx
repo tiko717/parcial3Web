@@ -3,8 +3,8 @@ import axios from "axios";
 
 const APIContext = createContext();
 
-const BASE_URL = import.meta.env.REACT_APP_BASE_URL || "http://localhost:8000/api";
-// const BASE_URL = "https://practica-parcial3ingweb-server.vercel.app/api";
+const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL || "http://localhost:8000/api";
+//const BASE_URL = "https://parcial3web-server.vercel.app/api";
 
 export const APIProvider = ({ children }) => {
     const [loadCount, setLoadCount] = useState(0);
@@ -27,7 +27,7 @@ export const APIProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios({ method, url, data });
+            const response = await axios({ method, url, data });            
             setLoading(false);
             return response;
         } catch (error) {
@@ -70,12 +70,22 @@ export const APIProvider = ({ children }) => {
         delete: () => alert("Method not available"),
     });
 
+    const usersAPI = createEndpointMethods("users", {
+        getProfile: (id, version = "v1") =>
+            apiMethods.get(`${BASE_URL}/${version}/users/${id}/profile`),
+        getByOauthID: (id, version = "v1") =>
+            apiMethods.get(`${BASE_URL}/${version}/users/oauth/${id}`),
+        rate: (id, review, version = "v1") =>
+            apiMethods.post(`${BASE_URL}/${version}/users/${id}/review`, review),
+    });
+
     return (
         <APIContext.Provider
             value={{
                 eventos: eventosAPI,
                 media: mediaAPI,
                 setLoading: setLoading,
+                users: usersAPI,
             }}
         >
             {children}

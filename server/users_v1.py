@@ -89,7 +89,7 @@ async def get_users_by_id(request: Request,
             projection["oauthId"] = 1
             projection["oauthProvider"] = 1      
         
-        user = DatabaseConnection.read_document("user", id, projection)
+        user = DatabaseConnection.read_document_id("user", id, projection)
         if user is None:
             return JSONResponse(status_code=404, content={"detail": f"Usuario con ID {id} no encontrado"})
 
@@ -110,10 +110,10 @@ async def add_review_to_user(review: Review, id: str = Path(description="ID del 
         if review.rating < 1 or review.rating > 5:
             return JSONResponse(status_code=400, content={"detail": "La valoración debe estar entre 1 y 5"})
         
-        user = DatabaseConnection.read_document("user", id)
+        user = DatabaseConnection.read_document_id("user", id)
         if user is None:
             return JSONResponse(status_code=404, content={"detail": f"Usuario con ID {id} no encontrado"})
-        reviwer = DatabaseConnection.read_document("user", review_dict["user"])
+        reviwer = DatabaseConnection.read_document_id("user", review_dict["user"])
         if reviwer is None:
             return JSONResponse(status_code=404, content={"detail": f"Usuario con ID {review_dict['user']} no encontrado"})
 
@@ -162,7 +162,7 @@ async def get_review_average(id: str = Path(description="ID del usuario", min_le
     APIUtils.check_id(id)
 
     try:
-        user = DatabaseConnection.read_document("user", id)
+        user = DatabaseConnection.read_document_id("user", id)
         if user is None:
             return JSONResponse(status_code=404, content={"detail": f"Usuario con ID {id} no encontrado"})
 
@@ -259,7 +259,7 @@ async def get_user_profile(id: str = Path(description="ID del usuario", min_leng
     
     
     try:
-        user = DatabaseConnection.read_document("user", id, projection)
+        user = DatabaseConnection.read_document_id("user", id, projection)
         if user is None:
             return JSONResponse(status_code=404, content={"detail": f"Usuario con ID {id} no encontrado"})
 

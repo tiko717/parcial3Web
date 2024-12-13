@@ -183,6 +183,45 @@ class DatabaseConnection:
         except Exception as e:
             logger.error(f"ID de documento no válido: {e}")
             raise
+
+    @classmethod
+    def find_documents(cls, collection_name, query=None, projection=None, sort=None, offset=0, limit=10):
+        """
+        Busca múltiples documentos en una colección con soporte para proyección, orden y paginación.
+
+        :param collection_name: Nombre de la colección donde buscar
+        :param query: Diccionario de búsqueda (filtro)
+        :param projection: Diccionario de proyección para campos específicos
+        :param sort: Lista de criterios de ordenamiento [(campo, orden), ...]
+        :param offset: Número de documentos a saltar (paginación)
+        :param limit: Número máximo de documentos a devolver
+        :return: Lista de documentos encontrados
+        """
+        try:
+            collection = cls.get_collection(collection_name)
+            cursor = collection.find(query or {}, projection)
+
+            if sort:
+                cursor = cursor.sort(sort)
+
+            if offset:
+                cursor = cursor.skip(offset)
+
+            if limit:
+                cursor = cursor.limit(limit)
+
+            documents = list(cursor)
+            
+            # Convertir ObjectId a string
+            for document in documents:
+                document['_id'] = str(document['_id'])
+
+            return documents
+
+        except Exception as e:
+            logger.error(f"Error al buscar documentos: {e}")
+            raise
+
     
     @classmethod
     def query_document(cls, collection_name, document_query, projection=None, sort_criteria=None, skip=0, limit=0, id_list=None, hasDate=False): # CAMBIO
