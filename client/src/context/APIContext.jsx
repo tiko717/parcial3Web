@@ -4,7 +4,7 @@ import axios from "axios";
 const APIContext = createContext();
 
 //const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL || "http://localhost:8000/api";
-const BASE_URL = "https://parcial3-web-server.vercel.app";
+const BASE_URL = "https://parcial3-web-server.vercel./api";
 
 export const APIProvider = ({ children }) => {
     const [loadCount, setLoadCount] = useState(0);
