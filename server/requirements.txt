@@ -5,3 +5,4 @@ pymongo==4.10.1
 python-dateutil==2.8.2
 cloudinary==1.41.0
 python-multipart==0.0.19
+httpx==0.27.2
