@@ -4,11 +4,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "../app/components/Header";
 import Footer from "../app/components/Footer";
 
-import EventsMainPage from "../events/EventsMainPage";
+import PaisesMainPage from "../paises/PaisesMainPage";
 
-import EventViewPage from "../events/EventViewPage";
-import EventCreatePage from "../events/EventCreatePage";
-import EventEditPage from "../events/EventEditPage";
+import PaisesViewPage from "../paises/PaisesViewPage";
+import PaisesCreatePage from "../paises/PaisesCreatePage";
 
 import LoginPage from "../login/LoginPage";
 import LogoutPage from "../login/LogoutPage";
@@ -23,11 +22,10 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={wrap(<EventsMainPage />, { header: true, footer: true })}
+            element={wrap(<PaisesMainPage />, { header: false, footer: true })}
           />
-          <Route path="/events/create" element={wrap(<EventCreatePage />, { header: true, footer: true })} />
-          <Route path="/events/:id" element={wrap(<EventViewPage />, { header: true, footer: true })} />
-          <Route path="/events/:id/edit" element={wrap(<EventEditPage />, { header: true, footer: true })} />
+          <Route path="/paises/create" element={wrap(<PaisesCreatePage />, { header: false, footer: true })} />
+          <Route path="/paises/view/" element={wrap(<PaisesViewPage />, { header: false, footer: true })} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/logout" element={<LogoutPage />} />
           {/* <Route path="*" element={<Page404 />} /> */}

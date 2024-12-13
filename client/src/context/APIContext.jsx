@@ -4,8 +4,8 @@ import axios from "axios";
 const APIContext = createContext();
 
 //const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL || "http://localhost:8000/api";
-//const BASE_URL = "http://localhost:8000/api";
-const BASE_URL = "https://parcial3-web-server.vercel.app/api";
+const BASE_URL = "http://localhost:8000/api";
+//const BASE_URL = "https://parcial3-web-server.vercel.app/api";
 
 export const APIProvider = ({ children }) => {
     const [loadCount, setLoadCount] = useState(0);
@@ -59,9 +59,9 @@ export const APIProvider = ({ children }) => {
         ...extraEndpoints,
     });
 
-    const eventosAPI = createEndpointMethods("eventos", {
-        getNearby: (lat, lon, params = "", version = "v1") =>
-            apiMethods.get(`${BASE_URL}/${version}/eventos/nearby?lat=${lat}&lon=${lon}${params}`),
+    const paisesAPI = createEndpointMethods("paises", {
+        getByEmail: (email, version = "v1") =>
+            apiMethods.get(`${BASE_URL}/${version}/paises/email/${email}`),
     });
 
     const mediaAPI = createEndpointMethods("media", {
@@ -83,7 +83,7 @@ export const APIProvider = ({ children }) => {
     return (
         <APIContext.Provider
             value={{
-                eventos: eventosAPI,
+                paises: paisesAPI,
                 media: mediaAPI,
                 setLoading: setLoading,
                 users: usersAPI,

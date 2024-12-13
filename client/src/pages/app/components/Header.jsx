@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import ProfileDropdown from "../../events/components/ProfileDropdown";
+import ProfileDropdown from "../../paises/components/ProfileDropdown";
 
 const Header = () => {
   const { isLogged, getUser } = useAuth();
@@ -37,7 +37,7 @@ const Header = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <Link to={"/"} className="navbar-brand">
-            Eventual
+            MiMapa
           </Link>
           <div className="d-flex align-items-end">
             {isLogged() ? profileBundle : loginBtn}

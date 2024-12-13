@@ -1,22 +1,22 @@
-import { useContext, createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
-    const [event, setEvent] = useState(undefined);
+    const [country, setCountry] = useState(undefined);
 
-    const getActualEvent = () => event;
+    const getActualCountry = () => country;
 
-    const setActualEvent = (event) => setEvent(event);
+    const setActualCountry = (country) => setCountry(country);
 
-    const clearActualEvent = () => setEvent(undefined);
+    const clearActualCountry = () => setCountry(undefined);
 
     return (
         <DataContext.Provider
             value={{
-                getActualEvent,
-                setActualEvent,
-                clearActualEvent,
+                getActualCountry,
+                setActualCountry,
+                clearActualCountry,
             }}
         >
             {children}

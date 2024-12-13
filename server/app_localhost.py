@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 
-from eventos_v1 import router as eventos_v1_router
+from paises_v1 import router as eventos_v1_router
 from multimedia_v1 import router as multimedia_v1_router
 from users_v1 import router as users_v1_router
 

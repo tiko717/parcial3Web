@@ -1,0 +1,42 @@
+[
+    {
+        "_id": { "$oid": "64b84a15f1e4a0a824ad1234" },
+        "nombre": "Madrid, España",
+        "email": "explorer.madrid@example.com",
+        "lat": 40.416775,
+        "lon": -3.703790,
+        "imagen": "https://example.com/images/madrid.jpg"
+    },
+    {
+        "_id": { "$oid": "64b84a15f1e4a0a824ad5678" },
+        "nombre": "Barcelona, España",
+        "email": "barcelona.city@example.com",
+        "lat": 41.385064,
+        "lon": 2.173404,
+        "imagen": "https://example.com/images/barcelona.jpg"
+    },
+    {
+        "_id": { "$oid": "64b84a15f1e4a0a824ad9101" },
+        "nombre": "Sevilla, España",
+        "email": "sevilla.tourism@example.com",
+        "lat": 37.388630,
+        "lon": -5.982330,
+        "imagen": "https://example.com/images/sevilla.jpg"
+    },
+    {
+        "_id": { "$oid": "64b84a15f1e4a0a824ad1121" },
+        "nombre": "Valencia, España",
+        "email": "valencia.experience@example.com",
+        "lat": 39.469907,
+        "lon": -0.376288,
+        "imagen": "https://example.com/images/valencia.jpg"
+    },
+    {
+        "_id": { "$oid": "64b84a15f1e4a0a824ad3141" },
+        "nombre": "Bilbao, España",
+        "email": "bilbao.trips@example.com",
+        "lat": 43.263013,
+        "lon": -2.934985,
+        "imagen": "https://example.com/images/bilbao.jpg"
+    }
+]

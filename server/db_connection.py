@@ -52,7 +52,7 @@ class DatabaseConnection:
             try:
                 uri = os.getenv('URI')
                 cls._client = MongoClient(uri,server_api=ServerApi('1'))
-                cls._db = cls._client['eventual']
+                cls._db = cls._client['mimapa']
                 logger.info("Conexión establecida a la base de datos.")
             except errors.ConnectionFailure as e:
                 logger.error(f"Error de conexión a la base de datos: {e}")
